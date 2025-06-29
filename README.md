@@ -147,7 +147,7 @@ docker run --rm --env-file .env paul-allen-agent python data_ingest/ingest.py
 
 To ingest custom file instead:
 
-1. **Place your custom data file** (e.g., `my_data.txt`) inside the `data_ingestion` folder in the project directory.
+1. **Place your custom data file** (e.g., `my_data.txt`) inside the `data_ingest` folder in the project directory.
 
 2. **Re-build the Docker image.** This will copy your new file into the image.
 
@@ -159,7 +159,7 @@ docker build -t paul-allen-agent .
 
 ```bash
 docker run --rm --env-file .env paul-allen-agent \
-  python data_ingestion/ingest.py --input-file data_ingestion/my_data.txt
+  python data_ingest/ingest.py --input-file data_ingest/my_data.txt
 ```
 
 
