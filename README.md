@@ -1,4 +1,4 @@
-# Paul Allen Archive
+# Paul Allen AI Agent
 
 ![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)
 ![License MIT](https://img.shields.io/badge/license-MIT-green.svg)
