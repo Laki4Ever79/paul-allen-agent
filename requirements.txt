@@ -1,0 +1,10 @@
+chainlit
+llama-index
+llama-index-llms-openai
+llama-index-embeddings-openai
+llama-index-vector-stores-pinecone
+pinecone-client
+pinecone
+semantic-router
+python-dotenv
+lxml

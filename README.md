@@ -1,0 +1,152 @@
+# Paul Allen Archive
+
+![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)
+![License MIT](https://img.shields.io/badge/license-MIT-green.svg)
+
+A conversational AI agent built to answer questions about the life, career, and legacy of Paul Allen.
+
+## Screenshot
+
+![Screenshot](public/screenshot.png)
+
+## Core Features
+
+- **Conversational UI**: Built using Chainlit
+- **Agent Framework**: Uses a LlamaIndex ReActAgent for intelligent tool use.
+- **Knowledge Base**: Indexed into a Pinecone serverless vector database (1024-dim).
+- **Safety Guardrails**: Semantic Router "allowlist" ensures the agent stays on-topic, politely refusing questions about politics, cooking, general knowledge, and more.
+
+## Project Structure
+
+```
+.
+├── data_ingest/
+│   ├── ingest.py           # Script to populate the vector DB
+│   └── paul_allen_data.txt # Source data for the knowledge base
+├── public/
+│   ├── Paul_Allen.jpg      # Welcome image
+│   └── screenshot.png      # Screenshot of the running app
+├── .env.example            # Template for required environment variables
+├── app.py                  # The main Chainlit application
+├── chainlit.md             # Unused
+├── router.py               # Semantic Router "allowlist" configuration
+└── requirements.txt        # Pinned project dependencies
+```
+
+## Setup and Installation
+
+### 1. Prerequisites
+
+- Python 3.12 or higher
+- A free Pinecone account to get an API key and region name
+
+### 2. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd paul-allen-agent
+```
+
+### 3. Create and Activate a Virtual Environment
+
+```bash
+# For macOS/Linux
+python3 -m venv venv
+source venv/bin/activate
+
+# For Windows
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 4. Configure Environment Variables
+
+Copy the `.env.example` file to a new file named `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Open the `.env` file and add your secret keys and configuration. Your personal OpenAI key should be used here.
+
+Note: Do not use quotation marks here!
+
+```env
+# .env file
+OPENAI_API_KEY=YOUR_OPENAI_API_KEY
+PINECONE_API_KEY=YOUR_PINECONE_API_KEY
+
+PINECONE_REGION=us-east-1
+PINECONE_CLOUD=aws
+PINECONE_INDEX_NAME=paul-allen-agent 
+
+EMBEDDING_DIM=1024
+EMBEDDING_MODEL=text-embedding-3-small
+```
+
+### 5. Install Dependencies
+
+Install the dependencies located in the requirements.txt
+
+```bash
+pip install -r requirements.txt
+```
+
+## How to Run the Application
+
+### Step 1: Ingest the Data
+
+First, populate the Pinecone vector database. Run the ingestion script from the project's root directory:
+
+```bash
+python data_ingest/ingest.py
+```
+
+This will read the data, create a Pinecone index named paul-allen-agent, and store the vectorized content.
+
+### Step 2: Run the Chainlit Agent
+
+Once ingestion is complete, run the Chainlit application:
+
+```bash
+chainlit run app.py -w
+```
+
+Your browser will automatically open to the chat interface.
+
+---
+
+## Alternative: Running with Docker
+
+For maximum ease of use and to avoid any local dependency conflicts, you can run the entire application using Docker.
+
+### 1. Prerequisites
+
+- Docker installed and running
+- Your `.env` file must be configured as described above
+
+### 2. Build the Docker Image
+
+From the project's root directory, run:
+
+```bash
+docker build -t paul-allen-agent .
+```
+
+### 3. Run the Ingestion Script inside the Container
+
+This command runs the ingest.py script inside a temporary container, passing in your local .env file for the API keys.
+
+```bash
+docker run --rm --env-file .env paul-allen-agent python data_ingest/ingest.py
+```
+
+### 4. Run the Chainlit Application Container
+
+Once ingestion is complete, run the Chainlit app. This maps port 8000 on your machine to port 8000 in the container.
+
+```bash
+docker run -p 8000:8000 --env-file .env paul-allen-agent
+```
+
+You can now access the agent in your browser at http://localhost:8000.
