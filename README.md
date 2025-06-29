@@ -9,13 +9,6 @@ A conversational AI agent built to answer questions about the life, career, and 
 
 ![Screenshot](public/screenshot.png)
 
-## Core Features
-
-- **Conversational UI**: Built using Chainlit
-- **Agent Framework**: Uses a LlamaIndex ReActAgent for intelligent tool use.
-- **Knowledge Base**: Indexed into a Pinecone serverless vector database (1024-dim).
-- **Safety Guardrails**: Semantic Router "allowlist" ensures the agent stays on-topic, politely refusing questions about politics, cooking, general knowledge, and more.
-
 ## Project Structure
 
 ```
@@ -24,13 +17,13 @@ A conversational AI agent built to answer questions about the life, career, and 
 │   ├── ingest.py           # Script to populate the vector DB
 │   └── paul_allen_data.txt # Source data for the knowledge base
 ├── public/
-│   ├── Paul_Allen.jpg      # Welcome image
-│   └── screenshot.png      # Screenshot of the running app
+│   ├── Paul_Allen.jpg     
+│   └── screenshot.png     
 ├── .env.example            # Template for required environment variables
 ├── app.py                  # The main Chainlit application
-├── chainlit.md             # Unused
+├── chainlit.md             
 ├── router.py               # Semantic Router "allowlist" configuration
-└── requirements.txt        # Pinned project dependencies
+└── requirements.txt        
 ```
 
 ## Setup and Installation
@@ -43,7 +36,7 @@ A conversational AI agent built to answer questions about the life, career, and 
 ### 2. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone git@github.com:Laki4Ever79/paul-allen-agent.git
 cd paul-allen-agent
 ```
 
