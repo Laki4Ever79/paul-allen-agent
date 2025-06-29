@@ -89,10 +89,20 @@ pip install -r requirements.txt
 
 ### Step 1: Ingest the Data
 
-First, populate the Pinecone vector database. Run the ingestion script from the project's root directory:
+First, you must populate the Pinecone vector database by running the ingestion script from the project's root directory.
+
+**Default Usage:**
+This command uses the default data source included in the repository (`data_ingestion/paul_allen_data.txt`).
 
 ```bash
-python data_ingest/ingest.py
+python data_ingestion/ingest.py
+```
+
+**Optional: Using a Custom Data File**
+The ingestion script is designed to be flexible. You can specify a different input file using the `--input-file` argument.
+
+```bash
+python data_ingestion/ingest.py --input-file path/to/your/custom_data.txt
 ```
 
 This will read the data, create a Pinecone index named paul-allen-agent, and store the vectorized content.
@@ -129,10 +139,29 @@ docker build -t paul-allen-agent .
 ### 3. Run the Ingestion Script inside the Container
 
 This command runs the ingest.py script inside a temporary container, passing in your local .env file for the API keys.
+By deafult './data_ingest/paul_allen_data.txt' is loaded
 
 ```bash
 docker run --rm --env-file .env paul-allen-agent python data_ingest/ingest.py
 ```
+
+To ingest custom file instead:
+
+1. **Place your custom data file** (e.g., `my_data.txt`) inside the `data_ingestion` folder in the project directory.
+
+2. **Re-build the Docker image.** This will copy your new file into the image.
+
+```bash
+docker build -t paul-allen-agent .
+```
+
+3. **Run the ingestion script, pointing to your new file.**
+
+```bash
+docker run --rm --env-file .env paul-allen-agent \
+  python data_ingestion/ingest.py --input-file data_ingestion/my_data.txt
+```
+
 
 ### 4. Run the Chainlit Application Container
 
